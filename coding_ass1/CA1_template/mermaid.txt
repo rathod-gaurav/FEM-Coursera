@@ -1,0 +1,46 @@
+
+sequenceDiagram
+  autonumber
+  participant M as main.cpp
+  participant C as FEM<dim> (class)
+  participant Mesh as triangulation
+  participant Sys as System (K,F,D, sparsity, quadrature)
+  participant BC as boundary_values
+  participant Asm as Assembly (Klocal, Flocal)
+  participant Sol as Solver (UMFPACK)
+  participant Post as Post (L2 error, VTK)
+  participant IO as HDF5 Writer
+
+  M->>C: new FEM<1>(order, problem)
+  Note right of C: Sets basisFunctionOrder, prob<br/>Constructs fe, dof_handler
+
+  M->>C: generate_mesh(10)
+  C->>Mesh: create [0, L] subdivided mesh
+  Mesh-->>C: triangulation ready (consumes L)
+
+  M->>C: setup_system()
+  C->>Sys: init sparsity_pattern, K, F, D
+  C->>Sys: set quadrature (quadRule, points, weights)
+  C->>Sys: map nodeLocation from support points
+  C->>BC: define_boundary_conds(nodeLocation, L, g1,g2, prob)
+  BC-->>C: boundary_values map
+
+  M->>C: assemble_system()
+  C->>Asm: loop elements: get local_dof_indices
+  Asm->>Asm: build Klocal, Flocal using nodeLocation & quadrature
+  Asm->>Sys: assemble into global K, F
+  C->>Sys: apply Dirichlet via boundary_values
+
+  M->>C: solve()
+  C->>Sol: UMFPACK: D = K^{-1} F
+  Sol-->>C: D
+
+  M->>C: l2norm_of_error()
+  C->>Post: integrate |u_h(D) - u_exact|^2 via quadrature
+  Post-->>C: l2norm
+
+  M->>C: output_results()
+  C->>Post: write solution.vtk (uses D + dof_handler)
+
+  M->>IO: writeSolutionsToFileCA1(D, l2norm, tag)
+  IO-->>M: tag.h5 with datasets {U=D, l2norm}
