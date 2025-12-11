@@ -23,7 +23,7 @@
 #include <deal.II/grid/grid_generator.h>
 #include <deal.II/grid/tria_accessor.h>
 #include <deal.II/grid/tria_iterator.h>
-#include <deal.II/grid/tria_boundary_lib.h>
+#include <deal.II/grid/manifold_lib.h>
 #include <deal.II/grid/grid_tools.h>
 #include <deal.II/dofs/dof_handler.h>
 #include <deal.II/dofs/dof_accessor.h>
@@ -428,7 +428,7 @@ void FEM<dim>::assemble_system(){
         double k_integral = 0;
         for(unsigned int q=0; q<quadRule; q++){
           //EDIT - Define Klocal.
-          k_integral += basis_gradient(A,quad_points[q])*basis_gradient(A,quad_points[q])*quad_weight[q];
+          k_integral += basis_gradient(A,quad_points[q])*basis_gradient(B,quad_points[q])*quad_weight[q];
         }
         Klocal[A][B] = ((2*E*Area)/(h_e))*k_integral;
       }
@@ -446,7 +446,7 @@ void FEM<dim>::assemble_system(){
         /*Note: K is a sparse matrix, so you need to use the function "add".
           For example, to add the variable C to K[i][j], you would use:
           K.add(i,j,C);*/
-        K.add(local_dof_indices[A],local_dof_indices[B],Klocal[A,B]);
+        K.add(local_dof_indices[A],local_dof_indices[B],Klocal[A][B]);
       }
     }
 

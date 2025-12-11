@@ -1,0 +1,10 @@
+/home/ubuntu/Downloads/FEM/coding_ass1/CA1_template/CMakeFiles/main1.dir
+/home/ubuntu/Downloads/FEM/coding_ass1/CA1_template/CMakeFiles/run.dir
+/home/ubuntu/Downloads/FEM/coding_ass1/CA1_template/CMakeFiles/debug.dir
+/home/ubuntu/Downloads/FEM/coding_ass1/CA1_template/CMakeFiles/release.dir
+/home/ubuntu/Downloads/FEM/coding_ass1/CA1_template/CMakeFiles/runclean.dir
+/home/ubuntu/Downloads/FEM/coding_ass1/CA1_template/CMakeFiles/distclean.dir
+/home/ubuntu/Downloads/FEM/coding_ass1/CA1_template/CMakeFiles/strip_comments.dir
+/home/ubuntu/Downloads/FEM/coding_ass1/CA1_template/CMakeFiles/info.dir
+/home/ubuntu/Downloads/FEM/coding_ass1/CA1_template/CMakeFiles/edit_cache.dir
+/home/ubuntu/Downloads/FEM/coding_ass1/CA1_template/CMakeFiles/rebuild_cache.dir
